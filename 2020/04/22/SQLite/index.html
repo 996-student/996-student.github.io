@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>SQLite数据库的创建和编辑 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SQLite数据库的创建和编辑这里就简单写一下如何在安卓中使用java代码创建一个本地数据库，并且导出后如何进行编辑数据的基本步骤  首先我们需要稍微的了解一下这个SQLite数据库   SQLite是一款轻量级的关系型数据库，它的运算速度非常快，占用资源很少 SQLite不仅支持标准的SQL语法，还遵循了数据库的ACID事务 SQLite的核心引擎本身不依赖第三方的软件，使用它也不需要”安装”。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQLite数据库的创建和编辑">
+<meta property="og:url" content="http://yoursite.com/2020/04/22/SQLite/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SQLite数据库的创建和编辑这里就简单写一下如何在安卓中使用java代码创建一个本地数据库，并且导出后如何进行编辑数据的基本步骤  首先我们需要稍微的了解一下这个SQLite数据库   SQLite是一款轻量级的关系型数据库，它的运算速度非常快，占用资源很少 SQLite不仅支持标准的SQL语法，还遵循了数据库的ACID事务 SQLite的核心引擎本身不依赖第三方的软件，使用它也不需要”安装”。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4005045779,15572557&fm=26&gp=0.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200422181446747.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200422181509913.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200422182408901.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW5nX2RlbW9u,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200422183923636.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200422184300738.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200422191038816.gif">
+<meta property="og:image" content="https://iknow-pic.cdn.bcebos.com/42a98226cffc1e17ce3b0c424290f603738de939?x-bce-process=image/resize,m_lfit,w_600,h_800,limit_1">
+<meta property="article:published_time" content="2020-04-22T10:40:30.000Z">
+<meta property="article:modified_time" content="2020-04-25T05:22:48.037Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="SQLite">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4005045779,15572557&fm=26&gp=0.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SQLite" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/22/SQLite/" class="article-date">
+  <time datetime="2020-04-22T10:40:30.000Z" itemprop="datePublished">2020-04-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SQLite数据库的创建和编辑
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SQLite数据库的创建和编辑"><a href="#SQLite数据库的创建和编辑" class="headerlink" title="SQLite数据库的创建和编辑"></a>SQLite数据库的创建和编辑</h1><h2 id="这里就简单写一下如何在安卓中使用java代码创建一个本地数据库，并且导出后如何进行编辑数据的基本步骤"><a href="#这里就简单写一下如何在安卓中使用java代码创建一个本地数据库，并且导出后如何进行编辑数据的基本步骤" class="headerlink" title="这里就简单写一下如何在安卓中使用java代码创建一个本地数据库，并且导出后如何进行编辑数据的基本步骤"></a>这里就简单写一下如何在安卓中使用java代码创建一个本地数据库，并且导出后如何进行编辑数据的基本步骤</h2><p><img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=4005045779,15572557&fm=26&gp=0.jpg" alt=""></p>
+<ul>
+<li><h3 id="首先我们需要稍微的了解一下这个SQLite数据库"><a href="#首先我们需要稍微的了解一下这个SQLite数据库" class="headerlink" title="首先我们需要稍微的了解一下这个SQLite数据库"></a>首先我们需要稍微的了解一下这个SQLite数据库</h3></li>
+</ul>
+<ol>
+<li>SQLite是一款轻量级的关系型数据库，它的运算速度非常快，占用资源很少</li>
+<li>SQLite不仅支持标准的SQL语法，还遵循了数据库的ACID事务</li>
+<li>SQLite的核心引擎本身不依赖第三方的软件，使用它也不需要”安装”。</li>
+<li>数据库中所有的信息（比如表、视图等）都包含在一个文件内。这个文件可以自由复制到其它目录或其它机器上。</li>
+<li>可移植性非常不错</li>
+<li>最重要的还是开源 (开源大法好~)   </li>
+</ol>
+<ul>
+<li><h3 id="我们先得需要创建一个用于存放SQL语句的SQL类（这里我创建了一个MyDatabaseHelper类）"><a href="#我们先得需要创建一个用于存放SQL语句的SQL类（这里我创建了一个MyDatabaseHelper类）" class="headerlink" title="我们先得需要创建一个用于存放SQL语句的SQL类（这里我创建了一个MyDatabaseHelper类）"></a>我们先得需要创建一个用于存放SQL语句的SQL类（这里我创建了一个MyDatabaseHelper类）</h3></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">创建的SQL类必须继承SQLiteOpenHelper并实现其方法</span></span><br><span class="line"><span class="comment">这里我们为了方便讲sql语句写在常量CRETE_USER中</span></span><br><span class="line"><span class="comment">类中我们一共实现了三个方法(一个是自动生成的构造方法)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">MyDatabaseHelper()构造方法，</span></span><br><span class="line"><span class="comment">第一个参数Context</span></span><br><span class="line"><span class="comment">第二个参数数据库名</span></span><br><span class="line"><span class="comment">第三个参数cursor允许我们在查询数据的时候返回一个自定义的光标位置，一般传入的都是null</span></span><br><span class="line"><span class="comment">第四个参数表示目前库的版本号（用于对库进行升级）</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">onCreate()方法便是在第一次创建数据库初才执行的，所以这里我们将sql语句放在内执行。</span></span><br><span class="line"><span class="comment">db.execSQL()执行sql语句</span></span><br><span class="line"><span class="comment">创建完后 我们写一个提示信息</span></span><br><span class="line"><span class="comment">onUpgrade()方法便是在需要升级数据库时使用的，我们可以对数据库进行一些操作</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDatabaseHelper</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CRETE_USER = <span class="string">"create table user("</span></span><br><span class="line">            + <span class="string">" id integer primary key autoincrement,"</span></span><br><span class="line">            + <span class="string">"author text,"</span></span><br><span class="line">            + <span class="string">"price real,"</span></span><br><span class="line">            + <span class="string">"pages integer,"</span></span><br><span class="line">            + <span class="string">"name text)"</span>;</span><br><span class="line">    <span class="keyword">private</span> Context mcontext;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyDatabaseHelper</span><span class="params">(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, <span class="keyword">int</span> version)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, name, factory, version);</span><br><span class="line">        <span class="keyword">this</span>.mcontext = context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</span><br><span class="line">        db.execSQL(CRETE_USER);</span><br><span class="line">        Toast.makeText(mcontext, <span class="string">"数据库创建成功"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h3 id="然后我们来通过一个按钮来执行创建-这里我就不写布局了，直接java代码啦"><a href="#然后我们来通过一个按钮来执行创建-这里我就不写布局了，直接java代码啦" class="headerlink" title="然后我们来通过一个按钮来执行创建,这里我就不写布局了，直接java代码啦"></a>然后我们来通过一个按钮来执行创建,这里我就不写布局了，直接java代码啦</h3></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    当在程序当中调用这个类的方法getWritableDatabase()或者 </span></span><br><span class="line"><span class="comment">    getReadableDatabase()方法的时候，如果当时没有数据，</span></span><br><span class="line"><span class="comment">    那么Android系就会自动生成一个数据库</span></span><br><span class="line"><span class="comment">    但区别在于当数据库不可写入的时候getReadableDatabase()方法</span></span><br><span class="line"><span class="comment">    返回的对象将以只读的方式去打开数据库，而getWriteDatabase()将出现异常</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">private</span> MyDatabaseHelper helper ;<span class="comment">//声明对象</span></span><br><span class="line">    <span class="keyword">private</span> Button btn1 ;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        helper = <span class="keyword">new</span> MyDatabaseHelper(<span class="keyword">this</span>,<span class="string">"BookStore.db"</span>,<span class="keyword">null</span>,<span class="number">1</span>);<span class="comment">//传入数据等</span></span><br><span class="line">        btn1 = findViewById(R.id.btn1);</span><br><span class="line">        btn1.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;<span class="comment">//点击事件</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                helper.getWritableDatabase();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        SQLiteStudioService.instance().start(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        SQLiteStudioService.instance().stop();</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h2 id="完成后，我们来看一下效果"><a href="#完成后，我们来看一下效果" class="headerlink" title="完成后，我们来看一下效果"></a>完成后，我们来看一下效果</h2><p><img src="https://img-blog.csdnimg.cn/20200422181446747.gif" alt=""></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><h2 id="再来通过AS里面的工具查看一下是否在本机中创建"><a href="#再来通过AS里面的工具查看一下是否在本机中创建" class="headerlink" title="再来通过AS里面的工具查看一下是否在本机中创建"></a>再来通过AS里面的工具查看一下是否在本机中创建</h2><p><img src="https://img-blog.csdnimg.cn/20200422181509913.gif" alt=""></p>
+</li>
+</ul>
+<hr>
+<h2 id="通过两张图我们可以发现本机的SQLite数据库已经创建成功了，那么我们该怎么来编辑数据库。"><a href="#通过两张图我们可以发现本机的SQLite数据库已经创建成功了，那么我们该怎么来编辑数据库。" class="headerlink" title="通过两张图我们可以发现本机的SQLite数据库已经创建成功了，那么我们该怎么来编辑数据库。"></a>通过两张图我们可以发现本机的SQLite数据库已经创建成功了，那么我们该怎么来编辑数据库。</h2><p>-### 首先我们如果通过adb Shell来登录，那么就得先配置环境变量(如图)</p>
+<h3 id="在安装SDK的时候，系统已经默认安装了SQLite了。所以我们只需要将SDK安装路径下的platform-tools路径添加到系统变量中的path就可以啦"><a href="#在安装SDK的时候，系统已经默认安装了SQLite了。所以我们只需要将SDK安装路径下的platform-tools路径添加到系统变量中的path就可以啦" class="headerlink" title="在安装SDK的时候，系统已经默认安装了SQLite了。所以我们只需要将SDK安装路径下的platform-tools路径添加到系统变量中的path就可以啦"></a>在安装SDK的时候，系统已经默认安装了SQLite了。所以我们只需要将SDK安装路径下的platform-tools路径添加到系统变量中的path就可以啦</h3><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://img-blog.csdnimg.cn/20200422182408901.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poYW5nX2RlbW9u,size_16,color_FFFFFF,t_70" alt=""></h2><h2 id="环境变量配置好后我们还需要一个可视化工具，这里我用的就是SQLiteStudio，至于详细的具体操作就百度吧-哈哈，这里我们重点讲的是安卓使用工具来编辑数据库"><a href="#环境变量配置好后我们还需要一个可视化工具，这里我用的就是SQLiteStudio，至于详细的具体操作就百度吧-哈哈，这里我们重点讲的是安卓使用工具来编辑数据库" class="headerlink" title="环境变量配置好后我们还需要一个可视化工具，这里我用的就是SQLiteStudio，至于详细的具体操作就百度吧~ 哈哈，这里我们重点讲的是安卓使用工具来编辑数据库"></a>环境变量配置好后我们还需要一个可视化工具，这里我用的就是SQLiteStudio，至于详细的具体操作就百度吧~ 哈哈，这里我们重点讲的是安卓使用工具来编辑数据库</h2><ul>
+<li><p><a href="https://pan.baidu.com/s/1n5GnYQO5nUvi0_3IOTJmqA" target="_blank" rel="noopener">SQLitestudio</a>提取码：8vne</p>
+</li>
+<li><h3 id="安装包就自行下载（记得关注哦）"><a href="#安装包就自行下载（记得关注哦）" class="headerlink" title="安装包就自行下载（记得关注哦）"></a>安装包就自行下载（记得关注哦）</h3></li>
+<li><h3 id="安装过程就跟着install一遍过就可以了，那么我们打开工具之前我们得先配置一下"><a href="#安装过程就跟着install一遍过就可以了，那么我们打开工具之前我们得先配置一下" class="headerlink" title="安装过程就跟着install一遍过就可以了，那么我们打开工具之前我们得先配置一下"></a>安装过程就跟着install一遍过就可以了，那么我们打开工具之前我们得先配置一下</h3></li>
+</ul>
+<ol>
+<li><h3 id="在SQLiteStudio中添加插件"><a href="#在SQLiteStudio中添加插件" class="headerlink" title="在SQLiteStudio中添加插件"></a>在SQLiteStudio中添加插件</h3><p><img src="https://img-blog.csdnimg.cn/20200422183923636.gif" alt="">  </p>
+</li>
+<li><h3 id="在AndroidStudio中添加添加好的jar包"><a href="#在AndroidStudio中添加添加好的jar包" class="headerlink" title="在AndroidStudio中添加添加好的jar包"></a>在AndroidStudio中添加添加好的jar包</h3><p><img src="https://img-blog.csdnimg.cn/20200422184300738.gif" alt="">      </p>
+</li>
+<li><h3 id="在项目中的OnCreate和OnDestroy方法里添加下面代码（仔细的话会发现我上面添加过这些代码）"><a href="#在项目中的OnCreate和OnDestroy方法里添加下面代码（仔细的话会发现我上面添加过这些代码）" class="headerlink" title="在项目中的OnCreate和OnDestroy方法里添加下面代码（仔细的话会发现我上面添加过这些代码）"></a>在项目中的OnCreate和OnDestroy方法里添加下面代码（仔细的话会发现我上面添加过这些代码）</h3></li>
+</ol>
+<p><code>SQLiteStudioService.instance().start(this);</code></p>
+<p><code>SQLiteStudioService.instance().stop();</code>    </p>
+<ol start="4">
+<li><h3 id="配置完后我们就可以在SQLiteSutdio中添加数据库了"><a href="#配置完后我们就可以在SQLiteSutdio中添加数据库了" class="headerlink" title="配置完后我们就可以在SQLiteSutdio中添加数据库了"></a>配置完后我们就可以在SQLiteSutdio中添加数据库了</h3><p><img src="https://img-blog.csdnimg.cn/20200422191038816.gif" alt="">      </p>
+</li>
+</ol>
+<hr>
+<h2 id="当然，这种方法添加的数据库只有本机在线的时候数据库才能正常使用哦"><a href="#当然，这种方法添加的数据库只有本机在线的时候数据库才能正常使用哦" class="headerlink" title="当然，这种方法添加的数据库只有本机在线的时候数据库才能正常使用哦"></a>当然，这种方法添加的数据库只有本机在线的时候数据库才能正常使用哦</h2><h1 id="今天又是适合学习的一天-嘻嘻"><a href="#今天又是适合学习的一天-嘻嘻" class="headerlink" title="今天又是适合学习的一天 嘻嘻~"></a>今天又是适合学习的一天 嘻嘻~</h1><p><img src="https://iknow-pic.cdn.bcebos.com/42a98226cffc1e17ce3b0c424290f603738de939?x-bce-process=image/resize,m_lfit,w_600,h_800,limit_1" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/22/SQLite/" data-id="ckaovwxf8000aj0uz8jcr3djy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQLite/" rel="tag">SQLite</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/25/Mybatis-%E6%98%A0%E5%B0%84%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mybatis-映射器的增删改查
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/22/MyBatis%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MyBatis的增删改查</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Intent/" rel="tag">Intent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-JDBC/" rel="tag">Java JDBC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/" rel="tag">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/" rel="tag">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharedPreferences/" rel="tag">SharedPreferences</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Intent/" style="font-size: 10px;">Intent</a> <a href="/tags/JAVA/" style="font-size: 15px;">JAVA</a> <a href="/tags/Java-JDBC/" style="font-size: 10px;">Java JDBC</a> <a href="/tags/Mybatis/" style="font-size: 15px;">Mybatis</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharedPreferences/" style="font-size: 10px;">SharedPreferences</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/27/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/25/Mybatis-%E6%98%A0%E5%B0%84%E5%99%A8/">Mybatis-映射器的增删改查</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/SQLite/">SQLite数据库的创建和编辑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/MyBatis%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/">MyBatis的增删改查</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/17/Intent%E8%BF%9E%E7%BB%AD%E4%BC%A0%E5%80%BC%E6%98%BE%E7%A4%BA/">Android的连续传值</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

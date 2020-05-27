@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JDBC登录与数据传输 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JDBC登录与数据传输 现在我们就先对登录代码来操作解释一波~(当然也不会讲的太具体 实在不行百度也是不错的选择)那么在写代码之前先创建好代码中所需要的包(包名如下)1234567controller(控制器)Filter(过滤器)mapper(连接数据库代码的接口)mapperImpl(连接数据库的代码)service(服务：对前后端数据进行比对)serviceImpl(服务的接口)pojo(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC登录与数据传输">
+<meta property="og:url" content="http://yoursite.com/2020/04/13/JDBC%E7%99%BB%E5%BD%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JDBC登录与数据传输 现在我们就先对登录代码来操作解释一波~(当然也不会讲的太具体 实在不行百度也是不错的选择)那么在写代码之前先创建好代码中所需要的包(包名如下)1234567controller(控制器)Filter(过滤器)mapper(连接数据库代码的接口)mapperImpl(连接数据库的代码)service(服务：对前后端数据进行比对)serviceImpl(服务的接口)pojo(">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTIzMzMxODgwODUsMTI4NzM4ODE4NSZmbT0yNiZncD0wLmpwZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/202004131652035.gif#pic_center">
+<meta property="article:published_time" content="2020-04-13T07:30:00.000Z">
+<meta property="article:modified_time" content="2020-04-17T11:09:08.705Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Java JDBC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTIzMzMxODgwODUsMTI4NzM4ODE4NSZmbT0yNiZncD0wLmpwZw?x-oss-process=image/format,png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JDBC登录与数据传输" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/13/JDBC%E7%99%BB%E5%BD%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/" class="article-date">
+  <time datetime="2020-04-13T07:30:00.000Z" itemprop="datePublished">2020-04-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JDBC登录与数据传输
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><h1 id="JDBC登录与数据传输"><a href="#JDBC登录与数据传输" class="headerlink" title="JDBC登录与数据传输"></a><center>JDBC登录与数据传输</center></h1><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTIzMzMxODgwODUsMTI4NzM4ODE4NSZmbT0yNiZncD0wLmpwZw?x-oss-process=image/format,png" alt=""></p>
+<h3 id="现在我们就先对登录代码来操作解释一波-当然也不会讲的太具体-实在不行百度也是不错的选择"><a href="#现在我们就先对登录代码来操作解释一波-当然也不会讲的太具体-实在不行百度也是不错的选择" class="headerlink" title="现在我们就先对登录代码来操作解释一波~(当然也不会讲的太具体 实在不行百度也是不错的选择)"></a>现在我们就先对登录代码来操作解释一波~(当然也不会讲的太具体 实在不行百度也是不错的选择)</h3><h3 id="那么在写代码之前先创建好代码中所需要的包-包名如下"><a href="#那么在写代码之前先创建好代码中所需要的包-包名如下" class="headerlink" title="那么在写代码之前先创建好代码中所需要的包(包名如下)"></a>那么在写代码之前先创建好代码中所需要的包(包名如下)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">controller(控制器)</span><br><span class="line">Filter(过滤器)</span><br><span class="line">mapper(连接数据库代码的接口)</span><br><span class="line">mapperImpl(连接数据库的代码)</span><br><span class="line">service(服务：对前后端数据进行比对)</span><br><span class="line">serviceImpl(服务的接口)</span><br><span class="line">pojo(数据)</span><br></pre></td></tr></table></figure>
+<h3 id="创建完包之后就跟着下面的步骤一步步执行就可以了"><a href="#创建完包之后就跟着下面的步骤一步步执行就可以了" class="headerlink" title="创建完包之后就跟着下面的步骤一步步执行就可以了"></a>创建完包之后就跟着下面的步骤一步步执行就可以了</h3><h3 id="在pojo包中创建User类-并生成Get-Set-toString-方法就可以了-代码很简单，这里就展示部分代码"><a href="#在pojo包中创建User类-并生成Get-Set-toString-方法就可以了-代码很简单，这里就展示部分代码" class="headerlink" title="在pojo包中创建User类 并生成Get/Set/toString() 方法就可以了(代码很简单，这里就展示部分代码 )"></a>在pojo包中创建User类 并生成Get/Set/toString() 方法就可以了(代码很简单，这里就展示部分代码 )</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> id ;</span><br><span class="line">	<span class="keyword">private</span> String uname ;</span><br><span class="line">	<span class="keyword">private</span> String aname ;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> tel ;</span><br><span class="line">	<span class="keyword">private</span> String email ;</span><br><span class="line">	<span class="keyword">private</span> Date date ;</span><br><span class="line">	<span class="keyword">private</span> String role ;</span><br><span class="line">	<span class="keyword">private</span> String upass ;</span><br></pre></td></tr></table></figure>
+<h3 id="在mapper包中创建一个用于连接数据库的接口类-UserMapper"><a href="#在mapper包中创建一个用于连接数据库的接口类-UserMapper" class="headerlink" title="在mapper包中创建一个用于连接数据库的接口类(UserMapper)"></a>在mapper包中创建一个用于连接数据库的接口类(UserMapper)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function">User <span class="title">getUser</span><span class="params">(User user)</span></span>;<span class="comment">//返回User对象</span></span><br><span class="line">	<span class="function">List&lt;User&gt; <span class="title">getList</span><span class="params">()</span></span>;<span class="comment">//返回包含User的List集合</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="写完接口那么就来实现它-UserMapperImpl"><a href="#写完接口那么就来实现它-UserMapperImpl" class="headerlink" title="写完接口那么就来实现它(UserMapperImpl)"></a>写完接口那么就来实现它(UserMapperImpl)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserMapperImpl</span> <span class="keyword">implements</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">		User user1 = <span class="keyword">null</span>;<span class="comment">//声明User对象</span></span><br><span class="line">		Connection conn = <span class="keyword">null</span>;<span class="comment">//不写在try/catch中是为了方便下面的关流(数据库连接池默认:100)</span></span><br><span class="line">		PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">		ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);<span class="comment">//这里通过反射 加载Mysql的驱动类</span></span><br><span class="line">            <span class="comment">//创建数据库的连接(写到这为了检测数据库是否连接成功 可以输出一下conn 如果有结果则连接成功)</span></span><br><span class="line">			conn = DriverManager.getConnection(<span class="string">"jdbc:mysql://127.0.0.1:3306/java"</span>, <span class="string">"root"</span>, <span class="string">"abc123"</span>);</span><br><span class="line">            <span class="comment">//sql语句</span></span><br><span class="line">			ps = conn.prepareStatement(<span class="string">"select uname,upass from test where uname = ? and upass = ? "</span>);</span><br><span class="line">            <span class="comment">//这里的setString()指的是sql语句中的?(问号) 从1开始</span></span><br><span class="line">			ps.setString(<span class="number">1</span>, user.getUname());</span><br><span class="line">			ps.setString(<span class="number">2</span>, user.getUpass());</span><br><span class="line">            <span class="comment">//执行sql语句并返回)ResultSet(结果集)对象</span></span><br><span class="line">			rs = ps.executeQuery();</span><br><span class="line">			<span class="keyword">while</span> (rs.next()) &#123;<span class="comment">//根据是否有值来判断</span></span><br><span class="line">				user1 = <span class="keyword">new</span> User();</span><br><span class="line">				user1.setUname(rs.getString(<span class="string">"uname"</span>));<span class="comment">//通过一开始创建的set来进行赋值</span></span><br><span class="line">				user1.setUpass(rs.getString(<span class="string">"upass"</span>));</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//下面就是关闭接口(与栈一样先进后出)</span></span><br><span class="line">			<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					rs.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (ps != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					ps.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					conn.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> user1;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		List&lt;User&gt; user1 = <span class="keyword">new</span> ArrayList&lt;User&gt;();<span class="comment">//由于要返回一整个数据所有需要一个集合</span></span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">		ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">			conn = DriverManager.getConnection(<span class="string">"jdbc:mysql://127.0.0.1:3306/java"</span>, <span class="string">"root"</span>, <span class="string">"abc123"</span>);</span><br><span class="line">			ps = conn.prepareStatement(<span class="string">"select * from test  "</span>);<span class="comment">//查询表中所有</span></span><br><span class="line">			rs = ps.executeQuery();</span><br><span class="line">			<span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">                <span class="comment">//和上面代码雷同</span></span><br><span class="line">				User user = <span class="keyword">new</span> User();</span><br><span class="line">				user.setId(rs.getInt(<span class="string">"id"</span>));</span><br><span class="line">				user.setUname(rs.getString(<span class="string">"uname"</span>));</span><br><span class="line">				user.setAname(rs.getString(<span class="string">"aname"</span>));</span><br><span class="line">				user.setTel(rs.getInt(<span class="string">"tel"</span>));</span><br><span class="line">				user.setEmail(rs.getString(<span class="string">"email"</span>));</span><br><span class="line">				user.setDate(rs.getDate(<span class="string">"date"</span>));</span><br><span class="line">				user.setRole(rs.getString(<span class="string">"role"</span>));</span><br><span class="line">				user.setUpass(rs.getString(<span class="string">"upass"</span>));</span><br><span class="line">				user1.add(user);<span class="comment">//将赋好值得user对象加到集合中</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					rs.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (ps != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					ps.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					conn.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> user1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="由于在连接数据库的操作已经在代码中解释了-所以下面我们依旧是跟着代码流程写下去"><a href="#由于在连接数据库的操作已经在代码中解释了-所以下面我们依旧是跟着代码流程写下去" class="headerlink" title="由于在连接数据库的操作已经在代码中解释了 所以下面我们依旧是跟着代码流程写下去"></a>由于在连接数据库的操作已经在代码中解释了 所以下面我们依旧是跟着代码流程写下去</h3><h3 id="在service包中创建UserService的接口类"><a href="#在service包中创建UserService的接口类" class="headerlink" title="在service包中创建UserService的接口类"></a>在service包中创建UserService的接口类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">checkUser</span><span class="params">(User user)</span></span>;<span class="comment">//对形参里的user进行判定返回布尔值</span></span><br><span class="line">	<span class="function">List&lt;User&gt; <span class="title">getUsers</span><span class="params">()</span></span>;<span class="comment">//获取list集合</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="在serviceImpl包中创建UserServiceImpl的实现类"><a href="#在serviceImpl包中创建UserServiceImpl的实现类" class="headerlink" title="在serviceImpl包中创建UserServiceImpl的实现类"></a>在serviceImpl包中创建UserServiceImpl的实现类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> UserMapper uMapper = <span class="keyword">new</span> UserMapperImpl();<span class="comment">//通过多态实现UserMapperImpl的对象</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">boolean</span> flag = <span class="keyword">false</span> ;</span><br><span class="line">		User user2 = uMapper.getUser(user);<span class="comment">//获取数据库查询结果</span></span><br><span class="line">		<span class="keyword">if</span> (user2 != <span class="keyword">null</span>) &#123;<span class="comment">//查询成功不就不会空值对呗~</span></span><br><span class="line">			flag = <span class="keyword">true</span> ;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> flag;<span class="comment">//将布尔值返回</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getUsers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> uMapper.getList();<span class="comment">//这还是返回集合</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="目前连接数据库的代码也完成了，检测是否成功的代码也完成了-那么现在就只剩下获取前端数据的controller了"><a href="#目前连接数据库的代码也完成了，检测是否成功的代码也完成了-那么现在就只剩下获取前端数据的controller了" class="headerlink" title="目前连接数据库的代码也完成了，检测是否成功的代码也完成了 那么现在就只剩下获取前端数据的controller了"></a>目前连接数据库的代码也完成了，检测是否成功的代码也完成了 那么现在就只剩下获取前端数据的controller了</h3><h3 id="在controller包中创建UserController类-这里我们前端采用post提交"><a href="#在controller包中创建UserController类-这里我们前端采用post提交" class="headerlink" title="在controller包中创建UserController类(这里我们前端采用post提交)"></a>在controller包中创建UserController类(这里我们前端采用post提交)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/login"</span>)<span class="comment">//这里采用了注解的方式来声明(也就不需要去web.xml中进行配置啦~ )</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> UserService uSimple = <span class="keyword">new</span> UserServiceImpl();<span class="comment">//通过多台获取UserServiceImpl对象</span></span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">super</span>.doPost(req, resp);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		String uname = req.getParameter(<span class="string">"uname"</span>);<span class="comment">//通过getParameter()方法来获取前端数据的数据</span></span><br><span class="line">		String upass = req.getParameter(<span class="string">"upass"</span>);</span><br><span class="line">		User user = <span class="keyword">new</span> User();</span><br><span class="line">		user.setUname(uname);</span><br><span class="line">		user.setUpass(upass);</span><br><span class="line">		<span class="keyword">boolean</span> result = uSimple.checkUser(user);<span class="comment">//将前端的值进行判定返回布尔值</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (result) &#123;<span class="comment">//成功则执行下面代码</span></span><br><span class="line">            <span class="comment">//通过Session来进行短时间(30min)的用户名传输</span></span><br><span class="line">			HttpSession session = req.getSession();</span><br><span class="line">			session.setAttribute(<span class="string">"uname"</span>, uname);<span class="comment">//key和value</span></span><br><span class="line">            <span class="comment">//这里我个人是通过ServletContext全局的方式来获取数据库传输的集合</span></span><br><span class="line">			ServletContext context = <span class="keyword">this</span>.getServletContext();</span><br><span class="line">			List&lt;User&gt; users = uSimple.getUsers();</span><br><span class="line">			context.setAttribute(<span class="string">"lists"</span>, users);</span><br><span class="line">			req.getRequestDispatcher(<span class="string">"/index.jsp"</span>).forward(req, resp);<span class="comment">//跳转</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			req.setAttribute(<span class="string">"temp"</span>, <span class="string">"用户名或密码错误"</span>);</span><br><span class="line">			req.getRequestDispatcher(<span class="string">"/login.jsp"</span>).forward(req, resp);<span class="comment">//跳转</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="到现在-JDBC登录与数据传输后台代码已经完成了，当然你们也可以接着去优化这里的代码"><a href="#到现在-JDBC登录与数据传输后台代码已经完成了，当然你们也可以接着去优化这里的代码" class="headerlink" title="到现在 JDBC登录与数据传输后台代码已经完成了，当然你们也可以接着去优化这里的代码"></a>到现在 JDBC登录与数据传输后台代码已经完成了，当然你们也可以接着去优化这里的代码</h3><h3 id="那么前端的代码我就不全部显示出来了-显示集合显示的代码"><a href="#那么前端的代码我就不全部显示出来了-显示集合显示的代码" class="headerlink" title="那么前端的代码我就不全部显示出来了(显示集合显示的代码)"></a>那么前端的代码我就不全部显示出来了(显示集合显示的代码)</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"data"</span>&gt;</span><br><span class="line">				&lt;table id=<span class="string">"datalist"</span> border=<span class="string">"1"</span> cellspacing=<span class="string">"0px"</span> width=<span class="string">"700px"</span>&gt;</span><br><span class="line">		&lt;tr align=<span class="string">"center"</span>&gt;</span><br><span class="line">			&lt;td&gt;管理员id&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;姓名&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;登录名&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;电话&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;电子邮件&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;授权日期&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;拥有角色&lt;/td&gt;</span><br><span class="line">			&lt;td&gt;密码&lt;/td&gt;</span><br><span class="line">		&lt;/tr&gt;</span><br><span class="line">		&lt;c:forEach items=<span class="string">"$&#123;lists&#125;"</span> <span class="keyword">var</span>=<span class="string">"list"</span> &gt;</span><br><span class="line">			&lt;tr align=<span class="string">"center"</span>&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.id&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.uname&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.aname&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.tel&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.email&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.date&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.role&#125;&lt;/td&gt;</span><br><span class="line">				&lt;td&gt;$&#123;list.upass&#125;&lt;/td&gt;</span><br><span class="line">			&lt;/tr&gt;</span><br><span class="line">		&lt;/c:forEach&gt;</span><br><span class="line">	&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">			&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="这里主要是使用jstl标签库-使用之前需要在最上方加入一下代码"><a href="#这里主要是使用jstl标签库-使用之前需要在最上方加入一下代码" class="headerlink" title="这里主要是使用jstl标签库 使用之前需要在最上方加入一下代码:"></a>这里主要是使用jstl标签库 使用之前需要在最上方加入一下代码:</h3><p><code>&lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;</code></p>
+<hr>
+<h2 id="在文章最后我会将代码中所需要的插件链接与代码成功Gif展出"><a href="#在文章最后我会将代码中所需要的插件链接与代码成功Gif展出" class="headerlink" title="在文章最后我会将代码中所需要的插件链接与代码成功Gif展出"></a>在文章最后我会将代码中所需要的插件链接与代码成功Gif展出</h2><ul>
+<li><p>测试成果<br><img src="https://img-blog.csdnimg.cn/202004131652035.gif#pic_center" alt=""></p>
+</li>
+<li><p>插件链接    </p>
+</li>
+<li><p><a href="https://pan.baidu.com/s/12Ia6VVoO_pB0InaQ2ORRog" target="_blank" rel="noopener">数据库驱动包</a>提取码: hgvu</p>
+</li>
+<li><p><a href="链接：https://pan.baidu.com/s/1OUi19UZLnGWY2b2xwFdeSg">Jstl标签库</a>提取码: u32y</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/13/JDBC%E7%99%BB%E5%BD%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93/" data-id="ckaovwxf40005j0uzc0zf0s2i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-JDBC/" rel="tag">Java JDBC</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/14/Git%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Git的基本使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/11/Android%E9%9D%99%E6%80%81-%E5%8A%A8%E6%80%81%E6%B3%A8%E5%86%8C%E4%B8%8E%E8%B7%A8%E8%BF%9B%E7%A8%8B%E6%8E%A5%E6%94%B6%E5%B9%BF%E6%92%AD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android静态 动态注册与跨进程接收广播</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Intent/" rel="tag">Intent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-JDBC/" rel="tag">Java JDBC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/" rel="tag">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/" rel="tag">SQLite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SharedPreferences/" rel="tag">SharedPreferences</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Intent/" style="font-size: 10px;">Intent</a> <a href="/tags/JAVA/" style="font-size: 15px;">JAVA</a> <a href="/tags/Java-JDBC/" style="font-size: 10px;">Java JDBC</a> <a href="/tags/Mybatis/" style="font-size: 15px;">Mybatis</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharedPreferences/" style="font-size: 10px;">SharedPreferences</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/27/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/25/Mybatis-%E6%98%A0%E5%B0%84%E5%99%A8/">Mybatis-映射器的增删改查</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/SQLite/">SQLite数据库的创建和编辑</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/22/MyBatis%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/">MyBatis的增删改查</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/17/Intent%E8%BF%9E%E7%BB%AD%E4%BC%A0%E5%80%BC%E6%98%BE%E7%A4%BA/">Android的连续传值</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
